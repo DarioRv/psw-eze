@@ -1,0 +1,44 @@
+<h1 class="text-primary">Juego Ahorcadito</h1>
+
+<div>
+  <h2>Selecciona una categoria</h2>
+  @for (item of categorias; track $index) {
+  <button
+    class="btn btn-outline-warning m-2"
+    (click)="seleccionarCategoria(item)"
+  >
+    {{ item }}
+  </button>
+  }
+</div>
+
+@if (categoriaSeleccionada) {
+<h2 class="text-warning">Categoria: {{ categoriaSeleccionada }}</h2>
+}
+
+<h2 style="margin-top: 50px">Palabra a adivinar:</h2>
+{{ palabraAdivinar }}
+<h2 style="margin-bottom: 50px">
+  @for (item of palabraOculta; track $index) {
+  {{ item }}
+  }
+</h2>
+
+<!-- Mostrar al tener la palabra a adivinar -->
+@if (palabraAdivinar) { @if (intentosRestantes > 0) {
+<h2 class="text-primary">Intentos restantes: {{ intentosRestantes }}</h2>
+} @else {
+<h2>Perdiste</h2>
+}
+<div class="flex mb-3" style="width: 600px">
+  @for (item of letras; track $index) {
+  <button class="tecla btn btn-primary m-1" (click)="seleccionarLetra(item)">
+    {{ item }}
+  </button>
+  }
+</div>
+} @if (gano) {
+<h1 class="text-primary">Ganaste</h1>
+}
+
+<button class="btn btn-danger" (click)="reiniciar()">Reiniciar</button>

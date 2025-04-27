@@ -1,0 +1,82 @@
+<section>
+  <h1 class="text-primary mb-4">Productos destacados</h1>
+
+  <div class="row justify-content-center gap-3">
+    @for (item of productos; track $index) {
+    <div class="card col-sm-1 col-md-3 col-lg-4" style="width: 18rem">
+      <img [src]="item.img" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">{{ item.nombre }}</h5>
+        <p class="card-text">{{ item.descripcion }}</p>
+        <button
+          class="btn btn-primary"
+          type="button"
+          (click)="agregarCarrito(item)"
+          [disabled]="checkProducto(item)"
+        >
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+
+  <button
+    class="btn btn-primary carrito"
+    type="button"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+  >
+    Carrito
+  </button>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Carrito de compras
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          @for (item of carrito; track $index) {
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.nombre }}</h5>
+              <p class="card-text text-primary">{{ item.precio }}</p>
+              <button class="btn btn-danger" (click)="quitarProducto(item)">
+                Eliminar
+              </button>
+            </div>
+          </div>
+          }@empty {
+          <p class="alert alert-info">El carrito está vacío</p>
+          }
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
