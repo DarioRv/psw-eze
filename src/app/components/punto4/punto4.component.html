@@ -1,0 +1,114 @@
+<h1 class="text-primary">
+  Boletería <i class="bi bi-ticket-perforated-fill"></i>
+</h1>
+<hr />
+
+<form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="dni" class="form-label">DNI</label>
+    <input
+      type="text"
+      class="form-control"
+      id="dni"
+      placeholder="Ingrese DNI"
+      formControlName="dni"
+    />
+    <div>
+      @if (dni.touched && dni.getError('required')) {
+      <p class="text-danger">El DNI es obligatorio</p>
+      } @if (dni.touched && dni.getError('minlength')) {
+      <p class="text-danger">La longitud mínima es de 9 caracteres</p>
+      } @if (dni.touched && dni.getError('maxlength')) {
+      <p class="text-danger">La longitud máxima es de 12 caracteres</p>
+      }
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="precio" class="form-label">Precio</label>
+    <input
+      type="number"
+      class="form-control"
+      id="precio"
+      placeholder="Monto a pagar"
+      formControlName="precio"
+      (change)="calcularPrecio()"
+    />
+  </div>
+  <div>
+    <label for="cat" class="form-label">Categoria</label>
+    <select
+      id="cat"
+      class="mb-3 form-select"
+      aria-label="Default select example"
+      formControlName="categoriaTurista"
+      (change)="calcularPrecio()"
+    >
+      <option value="" selected>Seleccione una opción</option>
+      <option value="menor">Menor</option>
+      <option value="adulto">Adulto</option>
+      <option value="jubilado">Jubilado</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      placeholder="Ingrese email"
+      formControlName="email"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="fecha" class="form-label">Fecha</label>
+    <input
+      type="date"
+      class="form-control"
+      id="fecha"
+      formControlName="fecha"
+    />
+  </div>
+
+  <div>
+    <button class="btn btn-outline-primary" type="submit">Enviar</button>
+  </div>
+
+  <hr />
+
+  @if (precio.value != 0 && categoriaTurista.value != '' && precioCalculado !=
+  0) {
+  <p class="font-bold">Precio final: {{ precioCalculado }}</p>
+
+  }
+</form>
+
+<hr />
+<h1 class="text-warning">
+  Tickets vendidos <i class="bi bi-bag-check-fill"></i>
+</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">DNI</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Categoria</th>
+      <th scope="col">Email</th>
+      <th scope="col">Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of tickets; track $index) {
+    <tr>
+      <th scope="row">{{ item.dni }}</th>
+      <td>{{ item.precio }}</td>
+      <td>{{ item.categoriaTurista }}</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.fecha | date : "dd/MM/yyyy" }}td></td>
+    </tr>
+
+    } @empty {
+    <div class="alert alert-info">No hay registros</div>
+    }
+  </tbody>
+</table>
